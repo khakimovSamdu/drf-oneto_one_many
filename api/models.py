@@ -30,3 +30,7 @@ class Product(models.Model):
     color = models.CharField(max_length=125)
     price = models.FloatField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return self.name
+    

@@ -3,8 +3,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .models import Student, Contact
-from .serializers import StudentSerializers, ContactSerializers
+from .models import Student, Contact, Company, Product
+from .serializers import StudentSerializers, ContactSerializers, CompanySerializers, ProductSerializers
 from django.contrib.auth.models import User
 from rest_framework.authentication import BasicAuthentication
 # Create your views here.
@@ -64,6 +64,44 @@ class OneToOneContact(APIView):
                 serializers.save()
                 return Response(serializers.data)
             return Response(serializers.errors)
+    
+class OnetoMenyCompany(APIView):
+    authentication_classes=[BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request: Request, id=None):
+        user = request.user
+        if user.is_authenticated:
+            if id:
+                data = Company.objects.get(id=id)
+                serializers = CompanySerializers(data).data
+                return Response(serializers)
+            else:
+                ruyxat = []
+                data = Company.objects.all()
+                for item in data:
+                    serializers = CompanySerializers(item).data
+                    ruyxat.append(serializers)
+                return Response(ruyxat)
+
+class OnetoMenyProduct(APIView):
+    authentication_classes = [BasicAuthentication]
+    parser_classes = [IsAuthenticated]
+    def get(self, request: Request, id=None):
+        user = request.user
+        if user.is_authenticated:
+            if id:
+                data = Product.objects.get(id=id)
+                serializers = ProductSerializers(data).data
+                return Response(serializers)
+            else:
+                data = Product.objects.all()
+                ruyxat = []
+                for item in data:
+                    serializers = ProductSerializers(item).data
+                    ruyxat.append(serializers)
+                return Response(ruyxat)
+            
         
+
 
         

@@ -15,7 +15,7 @@ class CompanySerializers(serializers.ModelSerializer):
         model = Company
         fields = "__all__"
 
-class ProductSerializers(serializers.ModelSerializerl):
+class ProductSerializers(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
